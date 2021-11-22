@@ -3,7 +3,7 @@ import { IWeatherForecast3h } from "appSrc/types/WeatherForecast3h";
 import IWeather from "../types/Weather";
 import IMainClass from "../types/MainClass";
 
-export interface IMergedWeather extends IWeather, IMainClass { };
+export interface IMergedWeather extends IWeather, IMainClass {}
 
 export interface IWeatherForecastGroup {
   date: string;
@@ -12,9 +12,7 @@ export interface IWeatherForecastGroup {
 
 export interface IWeatherForecastGroups extends Array<IWeatherForecastGroup> {}
 
-export default function cleanWeatherForecastData(
-  forecastData: IWeatherForecast
-): IWeatherForecastGroups {
+export default function cleanForecastData(forecastData: IWeatherForecast): IWeatherForecastGroups {
   const forecastList = forecastData.list;
   const removedNightForecast = forecastList.filter(
     (weatherForecast3h: IWeatherForecast3h) => weatherForecast3h.sys.pod === "d"
@@ -40,12 +38,12 @@ export default function cleanWeatherForecastData(
 
   weatherForecastsMergedData.forEach((weatherForecast: IWeatherForecastGroup) => {
     if (previousDate === weatherForecast.date) {
-      currentWeatherForecastGroup.mergedWeathers.push(weatherForecast.mergedWeathers[0])
+      currentWeatherForecastGroup.mergedWeathers.push(weatherForecast.mergedWeathers[0]);
     } else {
       currentWeatherForecastGroup = weatherForecast;
       weatherForecastGroups.push(currentWeatherForecastGroup);
     }
-    previousDate = weatherForecast.date
+    previousDate = weatherForecast.date;
   });
   return weatherForecastGroups;
 }

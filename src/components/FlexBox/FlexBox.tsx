@@ -1,35 +1,44 @@
 import { createElement, HTMLAttributes } from "react";
 import styled from "@emotion/styled";
 import { css } from "@emotion/react";
+import * as CSS from "csstype";
 
 interface IFlexBox {
   htmlTag?: string;
-  smWidth?: string;
-  smHeight?: string;
-  mWidth?: string;
-  mHeight?: string;
-  lgWidth?: string;
-  lgHeight?: string;
+  smWidth?: CSS.Property.Width;
+  smHeight?: CSS.Property.Height;
+  mWidth?: CSS.Property.Width;
+  mHeight?: CSS.Property.Height;
+  lgWidth?: CSS.Property.Width;
+  lgHeight?: CSS.Property.Height;
+  marginTop?: CSS.Property.MarginTop;
+  mMarginTop?: CSS.Property.MarginTop;
   lgDirectionRow?: boolean;
   smDirectionRow?: boolean;
-  lgBackgroundColor?: string;
-  justifyContent?: string;
+  backgroundColor?: CSS.Property.BackgroundColor;
+  lgBackgroundColor?: CSS.Property.BackgroundColor;
+  smJustifyContent?: CSS.Property.JustifyContent;
+  mJustifyContent?: CSS.Property.JustifyContent;
+  lgJustifyContent?: CSS.Property.JustifyContent;
 }
 
-type FlexBoxTypes = IFlexBox & HTMLAttributes<HTMLDivElement>;
+type FlexBoxTypes = IFlexBox & HTMLAttributes<HTMLElement>;
 
-const getWrapperContainer = (props: IFlexBox) => css`
+const getWrapperContainer = (props: FlexBoxTypes) => css`
   display: flex;
-  justify-content: ${props.justifyContent ? props.justifyContent : 'center'};
+  justify-content: ${props.smJustifyContent ? props.smJustifyContent : "center"};
   align-items: center;
   height: ${props.smHeight};
   width: ${props.smWidth};
-  background-color: #4a90e2;
+  background-color: ${props.backgroundColor};
   flex-direction: ${props.smDirectionRow ? "row" : "column"};
+  margin-top: ${props.marginTop};
 
   @media (min-width: 768px) {
     height: ${props.mHeight};
     width: ${props.mWidth};
+    justify-content: ${props.mJustifyContent ? props.mJustifyContent : "center"};
+    margin-top: ${props.mMarginTop};
   }
 
   @media (min-width: 1200px) {
@@ -37,6 +46,7 @@ const getWrapperContainer = (props: IFlexBox) => css`
     height: ${props.lgHeight};
     width: ${props.lgWidth};
     background-color: ${props.lgBackgroundColor};
+    justify-content: ${props.lgJustifyContent ? props.lgJustifyContent : "center"};
   }
 `;
 
@@ -48,10 +58,15 @@ const Component = ({
   mHeight,
   lgWidth,
   lgHeight,
+  marginTop,
+  mMarginTop,
+  backgroundColor,
   lgBackgroundColor,
   smDirectionRow = false,
   lgDirectionRow = false,
-  justifyContent = 'center',
+  smJustifyContent = "center",
+  mJustifyContent = "center",
+  lgJustifyContent = "center",
   ...rest
 }: FlexBoxTypes) => createElement(htmlTag, rest);
 

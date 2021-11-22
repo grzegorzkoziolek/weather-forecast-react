@@ -1,33 +1,49 @@
 import { Header, FlexBox, Image } from "appSrc/components";
-import tempDecorator from "../utils/tempDecorator";
-import { IDailyForecast } from "appSrc/utils/analyzeWeatherForecastData";
+import { IDailyForecast } from "appSrc/types";
+import { tempDecorator } from "appSrc/utils";
 
 export default function CurrentWeather(props: IDailyForecast) {
   const { day, minTemp, maxTemp, icon, description } = props;
   return (
     <FlexBox
       htmlTag="article"
-      smWidth="90vw"
-      mWidth="60vw"
-      lgWidth="30vw"
+      smWidth="260px"
+      mWidth="320px"
       lgDirectionRow
       smDirectionRow
-      justifyContent="space-between"
+      smJustifyContent="space-between"
+      mJustifyContent="space-between"
+      lgJustifyContent="space-between"
       lgBackgroundColor="white"
+      marginTop="10px"
+      mMarginTop="15px"
     >
-      <Header width="50px" fontSize="16px" fontWeight={400} lgFontColor="#4A90E2">
+      <Header width="70px" fontSize="17px" mFontSize="20px" fontWeight={400} lgFontColor="#4A90E2">
         {day}
       </Header>
       <Image
         alt={description}
-        width="30px"
+        width="22px"
+        mWidth="30px"
         src={process.env.PUBLIC_URL + `/icons/${icon}.png`}
       />
-      <Header fontSize="16px" fontWeight={400} lgFontColor="#4A90E2">
-        min. {tempDecorator(minTemp)}
+      <Header
+        fontSize="17px"
+        mFontSize="20px"
+        fontWeight={400}
+        lgFontColor="#4A90E2"
+        marginRight="20px"
+      >
+        {tempDecorator(minTemp)}
       </Header>
-      <Header fontSize="16px" fontWeight={400} lgFontColor="red">
-        max. {tempDecorator(maxTemp)}
+      <Header
+        fontSize="17px"
+        mFontSize="20px"
+        fontWeight={400}
+        smFontColor="#F8E71C"
+        lgFontColor="red"
+      >
+        {tempDecorator(maxTemp)}
       </Header>
     </FlexBox>
   );
