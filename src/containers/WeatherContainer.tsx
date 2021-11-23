@@ -35,7 +35,6 @@ export default function WeatherContainer() {
 
     Promise.all([currentWeatherRequest, forecastRequest])
       .then(([currentWeatherResponse, forecastResponse]) => {
-        console.log(currentWeatherResponse, forecastResponse);
         const dailyForecasts = processForecastResponses(forecastResponse.data);
         setProcessedWeather({
           currentWeather: currentWeatherResponse.data,
@@ -51,7 +50,6 @@ export default function WeatherContainer() {
     axios
       .get(`https://api.freegeoip.app/json/?apikey=${FREEGEOIP_KEY}`)
       .then((response) => {
-        console.log(response.data)
         getWeather(response.data.city);
       })
       .catch(() => {
