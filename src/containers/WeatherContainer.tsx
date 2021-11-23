@@ -1,10 +1,11 @@
 import { useCallback, useEffect, useState } from "react";
 import axios from "axios";
-import { FlexBox } from "appSrc/components";
+import { FlexBox, Header } from "appSrc/components";
 import { CurrentWeather, WeatherForecast } from ".";
 import { analyzeForecast, cleanForecastData } from "appSrc/utils";
 import { IDailyForecasts, ICurrentWeather } from "appSrc/types";
 import { IWeatherForecast } from "appSrc/types/WeatherForecast";
+import { useNavigate } from 'react-router-dom';
 
 const FREEGEOIP_KEY = process.env.REACT_APP_FREEGEOIP_KEY;
 const OPEN_WEATHER_KEY = process.env.REACT_APP_OPEN_WEATHER_KEY;
@@ -15,6 +16,8 @@ export interface IProcessedWeather {
 }
 export default function WeatherContainer() {
   const [processedWeather, setProcessedWeather] = useState<IProcessedWeather | null>(null);
+  const [refreshPage, setRefreshPage] = useState(false);
+  const navigate = useNavigate();
 
   const processForecastResponses = (forecastData: IWeatherForecast): IDailyForecasts => {
     const cleanedForecastData = cleanForecastData(forecastData);
@@ -32,28 +35,29 @@ export default function WeatherContainer() {
 
     Promise.all([currentWeatherRequest, forecastRequest])
       .then(([currentWeatherResponse, forecastResponse]) => {
+        console.log(currentWeatherResponse, forecastResponse);
         const dailyForecasts = processForecastResponses(forecastResponse.data);
         setProcessedWeather({
           currentWeather: currentWeatherResponse.data,
           weatherForecast: dailyForecasts,
         });
       })
-      .catch((error) => {
-        console.log(error);
+      .catch(() => {
+        navigate('/error');
       });
-  }, []);
+  }, [navigate]);
 
   useEffect(() => {
     axios
       .get(`https://api.freegeoip.app/json/?apikey=${FREEGEOIP_KEY}`)
       .then((response) => {
-        console.log(response.data);
+        console.log(response.data)
         getWeather(response.data.city);
       })
-      .catch((error) => {
-        console.log(error);
+      .catch(() => {
+        navigate('/error');
       });
-  }, [getWeather]);
+  }, [getWeather, refreshPage, navigate]);
 
   return (
     <FlexBox
@@ -65,6 +69,18 @@ export default function WeatherContainer() {
     >
       {processedWeather ? (
         <>
+          <Header
+            onClick={() => setRefreshPage(!refreshPage)}
+            htmlTag="a"
+            fontSize="2rem"
+            fontWeight="400"
+            smFontColor="red"
+            lgFontColor="red"
+            position="absolute"
+            top="20px"
+            right="20px"
+            cursor="pointer"
+          >refresh</Header>
           <CurrentWeather {...processedWeather.currentWeather} />
           <WeatherForecast dailyForecasts={processedWeather.weatherForecast} />
         </>

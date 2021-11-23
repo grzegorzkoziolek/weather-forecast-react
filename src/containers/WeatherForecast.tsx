@@ -12,7 +12,6 @@ export default function WeatherForecast({ dailyForecasts }: { dailyForecasts: ID
       smHeight="45vh"
       mHeight="55vh"
       lgHeight="100vh"
-      backgroundColor='#4a90e2'
       lgBackgroundColor="white"
       mJustifyContent="start"
     >

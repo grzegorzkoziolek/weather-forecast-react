@@ -15,7 +15,6 @@ export default function CurrentWeather({ main, weather }: ICurrentWeather) {
         lgHeight="100vh"
         smWidth="100vw"
         lgWidth="30vw"
-        backgroundColor="#4a90e2"
       >
         <Image
           alt={weatherDescription}

@@ -14,6 +14,11 @@ type HeaderPropsType = HTMLAttributes<HTMLHeadingElement> & {
   smFontColor?: CSS.Property.Color;
   lgFontColor?: CSS.Property.Color;
   width?: CSS.Property.Width;
+  position?: CSS.Property.Position,
+  top?: CSS.Property.Top,
+  right?: CSS.Property.Right,
+  textAlign?: CSS.Property.TextAlign,
+  cursor?: CSS.Property.Cursor,
 };
 
 const getHeaderStyles = (props: HeaderPropsType) => css`
@@ -28,7 +33,12 @@ const getHeaderStyles = (props: HeaderPropsType) => css`
   white-space: ${props.spaceNoWrap ? "nowrap" : "normal"};
   width: ${props.width};
   color: ${props.smFontColor ? props.smFontColor : "#F6FAFD"};
-
+  position: ${props.position};
+  top: ${props.top};
+  right: ${props.right};
+  text-align: ${props.textAlign};
+  cursor: ${props.cursor};
+  
   @media (min-width: 768px) {
     font-size: ${props.mFontSize};
   }
@@ -49,6 +59,11 @@ const Component = ({
   smFontColor,
   lgFontColor,
   width,
+  position,
+  top,
+  right,
+  textAlign,
+  cursor,
   ...rest
 }: HeaderPropsType) => createElement(htmlTag, rest);
 
